@@ -1,0 +1,347 @@
+#st buddy v.1.0
+# brought to you by Graveyard Shift Software
+#programed by Michael McCabe
+#based on Vampire: The Masqurade 20th Anniversery addition
+#all rights and Intellectual materials belong to White Wolf Publishing
+
+import random
+
+import pickle
+diff=6
+sucnes=1
+
+def changediff (x):
+    '''changes global difficulty setting'''
+    global diff
+    diff=x
+    print "difficulty is now set to " +str(diff)
+
+def resetdiff():
+    '''resets global difficulty to 6'''
+    global diff
+    diff=6
+
+def changesucness(x):
+    '''change the nesecary successes for a roll'''
+    global sucnes
+    sucnes=x
+def resetsucnes():
+    '''resets global sucess nesecary variable'''
+    global sucnes
+    sucnes=1
+
+def singleplayertest(a,b,c):
+    '''conducts a single player ability/atribute skill check'''
+    file=open('chars.txt','rb')
+    chars=pickle.load(file)
+    file.close()        
+    playername=chars[a]    
+    att=[playername[b]]
+    abil=[playername[c]]
+    dicepool =att+abil        
+    sucnes = 1
+    nat10=0
+    fail=0
+    success=0
+    botch = 0
+    botchcheck = False
+    while dicepool > 0:
+        currentroll = random.randint(1,10)
+        dicepool =-1   
+        if currentroll == 10:
+            nat10 = nat10 + 1
+        elif currentroll in range(diff,9) :
+            success = success +1
+        elif currentroll in range(2,diff - 1):
+            fail = fail + 1
+        else:
+            botch = botch +1  
+    while nat10 > 0:
+        currentroll = random.randint(1,10)
+        if currentroll == 10:
+            success = success + 1
+        elif currentroll in range(diff,9):
+            success = success + 1
+            nat10 = nat10 -1
+        else: 
+            nat10= nat10 -1        
+    success = success - botch
+    if success <= 0 and botch >0 :
+        botchcheck = True
+    else:
+        botchcheck = False 
+    if success >= sucnes: 
+        print a +" has suceded!(" + str(success) + " successes)"
+    elif success >= sucnes +2:
+        print a +" has suceded dramatically! ("+ str(success) + " sucesses)"
+    elif success < sucnes:
+        print a + " has failed"
+    elif success < sucnes and botchcheck ==True:
+        print a + " has botched their roll"
+    
+    
+  
+        
+def vs (a,b,c,d,e,f):
+    '''conducts a contested roll between two players, each with one attribute and ability check'''
+    file=open('chars.txt','rb')
+    chars=pickle.load(file)
+    file.close
+    player1=chars[a]
+    player2=chars[d]
+    player1att=[player1[b]]
+    player1abil=[player1[c]]    
+    player1dicepool= player1abil+player1att
+    player2att=[player2[e]]
+    player2abil=[player2[f]] 
+    player2dicepool= player2abil+player2att
+    player1success=0
+    player1nat10=0
+    player1fail=0
+    player1botch=0
+    player1botchcheck=False    
+    player2success=0
+    player2nat10=0
+    player2fail=0
+    player2botch=0
+    player2botchcheck=False
+    while player1dicepool > 0:
+        currentroll = random.randint(1,10)
+        player1dicepool =-1   
+        if currentroll == 10:
+            player1nat10 = player1nat10 + 1
+        elif currentroll in range(diff,9) :
+            player1success = player1success +1
+        elif currentroll in range(2,diff - 1):
+            player1fail = player1fail + 1
+        else:
+            player1botch = player1botch +1  
+    while player1nat10 > 0:
+        currentroll = random.randint(1,10)
+        if currentroll == 10:
+            player1success = player1success + 1
+        elif currentroll in range(diff,9):
+            player1success = player1success + 1
+            player1nat10 = player1nat10 -1
+        else: 
+            player1nat10= player1nat10 -1        
+    player1success = player1success - player1botch
+    if player1success <= 0 and player1botch >0 :
+        player1botchcheck = True
+    else:
+        player1botchcheck = False 
+   
+    while player2dicepool > 0:
+        currentroll = random.randint(1,10)
+        player2dicepool =-1   
+        if currentroll == 10:
+            player2nat10 = player2nat10 + 1
+        elif currentroll in range(diff,9) :
+            player2success = player2success +1
+        elif currentroll in range(2,diff - 1):
+            player2fail = player2fail + 1
+        else:
+            player2botch = player2botch +1  
+    while player2nat10 > 0:
+        currentroll = random.randint(1,10)
+        if currentroll == 10:
+            player2success = player2success + 1
+        elif currentroll in range(diff,9):
+            player2success = player2success + 1
+            player2nat10 = player2nat10 -1
+        else: 
+            player2nat10= player2nat10 -1        
+    player2success = player2success - player2botch
+    if player2success <= 0 and player2botch >0 :
+        player2botchcheck = True
+    else:
+        player2botchcheck = False  
+    
+    if player1botchcheck==True and player2botchcheck==True:
+        print "both " + a+ " and " +d+ " botched their rolls"
+    elif player1success>=sucnes and player2botchcheck==True:
+        print a + " was successful("+str(player1success)+" successes), and " +d+ " botched their roll"
+    elif player1success<sucnes and player2botchcheck==True:
+        print a + " failed their roll and " +d+ " botched their roll"
+    elif player1success<sucnes and player1botchcheck==False and player2success<sucnes and player2botchcheck==False:
+        print 'both ' +a+ " and " +d+ " failed their rolls (" +str(player1success)+ "/" +str(player2success)+" successes"
+    elif player2success>=sucnes and player1botchcheck==True:
+        print d + " was successful("+str(player2success)+" successes), and " +a+ " botched their roll"
+    elif player2success<sucnes and player1botchcheck==True:
+        print d + " failed their roll and " +a+ " botched their roll"
+    elif player1success>=sucnes and player1success==player2success and player1botchcheck==False  and player2botchcheck==False:
+        print "both "+a+ " and "+d+ "have matching successes(" + str(player1success)+ " successes)"
+    elif player1success>=sucnes and player2success>=sucnes and player1success>player2success:
+        print a+ " beats " +d+ "("+str(player1success)+"/" +str(player2success)+" successes)"
+    elif player1success>=sucnes and player2success>=sucnes and player1success<player2success:
+        print d+ " beats " +a+ "("+str(player2success)+"/" +str(player1success)+" successes)"
+             
+             
+def singleatttest(a,b):             
+    '''test one attribute at a time, used for willpower checks,etc.'''
+    file=open('chars.txt','rb')
+    chars=pickle.load(file)
+    file.close
+    player1=chars[a]
+    dicepool= player1[b] 
+    sucnes = 1
+    nat10=0
+    fail=0
+    success=0
+    botch = 0
+    botchcheck = False
+    while dicepool > 0:
+        currentroll = random.randint(1,10)
+        dicepool =-1   
+        if currentroll == 10:
+            nat10 = nat10 + 1
+        elif currentroll in range(diff,9) :
+            success = success +1
+        elif currentroll in range(2,diff - 1):
+            fail = fail + 1
+        else:
+            botch = botch +1  
+    while nat10 > 0:
+        currentroll = random.randint(1,10)
+        if currentroll == 10:
+            success = success + 1
+        elif currentroll in range(diff,9):
+            success = success + 1
+            nat10 = nat10 -1
+        else: 
+            nat10= nat10 -1        
+    success = success - botch
+    if success <= 0 and botch >0 :
+        botchcheck = True
+    else:
+        botchcheck = False 
+    if success >= sucnes: 
+        print a +" has suceded!(" + str(success) + " successes)"
+    elif success >= sucnes +2:
+        print a +" has suceded dramatically! ("+ str(success) + " sucesses)"
+    elif success < sucnes:
+        print a + " has failed"
+    elif success < sucnes and botchcheck ==True:
+        print a + " has botched their roll"
+        
+        
+def applydamage(name, damagetype,amount):
+    '''applys damage to a character sheet'''
+
+    file=open('chars.txt','rb')
+    chars=pickle.load(file)
+    file.close   
+    
+    playername=chars[name]
+    health_bashing=playername['health_bashing']
+    health_lethal=playername['health_lethal']
+    health_aggrivated=playername['health_aggrivated']
+    is_alive=playername['is_alive']    
+      
+    while amount >0:    
+    
+    
+        if damagetype=='bashing':
+            if health_bashing > amount:
+                health_bashing=health_bashing-amount
+                amount=0
+            elif health_bashing==amount:
+                health_bashing=0
+                amount=0
+            elif health_bashing<amount:
+                        
+                amount=amount-health_bashing
+                health_bashing=0
+
+                damagetype='lethal'
+            
+        if damagetype=='lethal':
+            if health_lethal>amount:
+                health_lethal=health_lethal-amount
+                amount=0
+            elif health_lethal==amount:
+                health_lethal=0
+            elif health_lethal<amount:
+                amount=amount-health_lethal
+                health_lethal=0
+                damagetype='aggrivated'
+            
+        if damagetype=="aggrivated":
+            if health_aggrivated>amount:
+                health_aggrivated=health_aggrivated-amount
+                amount=0
+            elif health_aggrivated==amount:
+                health_aggrivated=0
+            elif health_aggrivated<amount:
+                health_aggrivated=0
+                is_alive=False
+                amount=0
+            
+            
+    
+    playername['health_bashing']=health_bashing
+    playername['health_lethal']=health_lethal
+    playername['health_aggrivated']=health_aggrivated
+    playername['is_alive']=is_alive
+    file=open('chars.txt','wb')   
+    pickle.dump(chars,file)
+    file.close
+    
+def displaystatus(name):
+    '''display a characters health and blood of character'''
+    file=open('chars.txt','rb')
+    chars=pickle.load(file)
+    file.close
+    playername=chars[name]
+    x=playername['health_bashing']
+    y=playername['health_lethal']
+    z=playername['health_aggrivated']    
+    a=playername['is_alive']
+    b=playername['bloodpool']    
+    if a ==False:
+        print str(name) + " is dead"
+    elif a==True:
+        print str(playername['name']) +' has ' +str(x)+ " levels of bashing health remaining, "+str(y)+" levels of lethal health remaining and "+str(z)+" levels of aggrivated damage reamaining"
+        print str(playername['name']) + ' has '+ str(b)+ ' blood points remaining'
+
+def raisehealth(name, amount):
+    
+    '''raise a kindred characters health'''
+    file=open('chars.txt','rb')
+    chars=pickle.load(file)
+    file.close
+    playername=chars[name]
+    bloodpool=playername['bloodpool']
+    maxperturn=playername['blood_per_turn']
+    health_bashing=playername['health_bashing']
+    health_lethal=playername['health_lethal']
+    health_aggrivated=playername['health_aggrivated']
+    applied=0    
+    if amount> maxperturn:
+        print 'you cannot spend that many blood points in one turn, amount has been adjusted'
+        amount=maxperturn
+        bloodpool=bloodpool-amount
+    elif amount <= maxperturn:
+        bloodpool=bloodpool-amount
+    
+    while amount >0:
+        if health_aggrivated < 9:
+            applied = 8-amount
+            health_aggrivated=health_aggrivated+applied
+            amount = amount-applied
+        elif health_lethal <9:
+            applied=8-amount
+            health_lethal=health_lethal+applied
+            amount=amount-applied
+        elif health_bashing <9:
+            applied = 8 - amount
+            health_bashing=health_bashing+applied
+            amount=amount-applied
+    playername['health_bashing']=health_bashing
+    playername['health_lethal']=health_lethal
+    playername['health_aggrivated']=health_aggrivated
+    playername['bloodpool']=bloodpool
+    file=open('chars.txt','wb')
+    pickle.dump(chars,file)
+    file.close
+
