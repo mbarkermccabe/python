@@ -1,0 +1,672 @@
+import wx
+import pickle
+import random
+
+
+class PageOne(wx.Panel):
+    def __init__(self, parent):
+        wx.Panel.__init__(self, parent)
+        characterlist=["bob","Wanda","Carlos"]        
+        characterlist=wx.ListBox(self,-1,(50,50),(170,170),characterlist,wx.LB_SINGLE)
+        characterlistdia=wx.StaticText(self,-1,"Characters",(100,20))  
+        
+        
+        displaybutton=wx.Button(self,-1,"Display Character",(85,325))
+        editcharacter=wx.Button(self,-1,"Edit Character",(90,375))
+        output=wx.StaticText(self,-1,"Character Histroy appears here",(350,10),(499,250),wx.ALIGN_CENTER)
+        output.SetForegroundColour('green')
+        output.SetBackgroundColour('white')
+
+
+        strengthtitle=wx.StaticText(self,-1,"Strength: ",(620,10))
+        dexteritytitle=wx.StaticText(self,-1,"Dexterity: ",(620,30))
+        staminatitle=wx.StaticText(self,-1,"Stamina: ",(620,50))
+        
+        charismatitle=wx.StaticText(self,-1,"Charisma: ",(730,10))
+        manipulationtitle=wx.StaticText(self,-1,"Manipulation: ",(730,30))
+        appearencetitle=wx.StaticText(self,-1,"Appearence: ",(730,50))
+            
+        perceptiontitle=wx.StaticText(self,-1,"Perception: ",(840,10))
+        intellegencetitle=wx.StaticText(self,-1, "Intellegence: ",(840,30))
+        witstitle=wx.StaticText(self,-1,"Wits: ",(840,50))
+        
+        alertnesstitle=wx.StaticText(self,-1,'Alertness: ',(620,80))
+        athleticstitle=wx.StaticText(self,-1,'Athletics: ',(620,100))
+        awarnesstitle=wx.StaticText(self,-1,'Awarness: ',(620,120))
+        brawltitle=wx.StaticText(self,-1,'Brawl: ',(620,140))
+        empathytitle=wx.StaticText(self,-1,'Empathy: ',(620,160))
+        expressiontitle=wx.StaticText(self,-1,'Expression: ',(620,180))
+        intimidationtitle=wx.StaticText(self,-1,'Intimidation: ',(620,200))
+        leadershiptitle=wx.StaticText(self,-1,'Leadership: ',(620,220))
+        streetwisetitle=wx.StaticText(self,-1,'Streetwise: ',(620,240))
+        subterfugetitle=wx.StaticText(self,-1,'Subterfuge: ',(620,260))
+
+        animal_kentitle=wx.StaticText(self,-1,'Animal Ken: ',(730,80))
+        craftstitle=wx.StaticText(self,-1,'Crafts: ',(730,100))
+        drivetitle=wx.StaticText(self,-1,'Drive: ',(730,120))
+        etiquittetitle=wx.StaticText(self,-1,'Etiquitte: ',(730,140))
+        firearmstitle=wx.StaticText(self,-1,'Firearms: ',(730,160))
+        larcenytitle=wx.StaticText(self,-1,'Larceny: ',(730,180))
+        meleetitle=wx.StaticText(self,-1,'Melee: ',(730,200))
+        performancetitle=wx.StaticText(self,-1,'Performance: ',(730,220))
+        stealthtitle=wx.StaticText(self,-1,'Stealth: ',(730,240))
+        survivaltitle=wx.StaticText(self,-1,'Survival: ',(730,260))
+        
+        academicstitle=wx.StaticText(self,-1,'Academics: ',(840,80))
+        computertitle=wx.StaticText(self,-1,'Computer: ',(840,100))
+        financetitle=wx.StaticText(self,-1,'Finance: ',(840,120))
+        investigationtitle=wx.StaticText(self,-1,'Investigation: ',(840,140))
+        lawtitle=wx.StaticText(self,-1,'Law: ',(840,160))
+        medicinetitle=wx.StaticText(self,-1,'Medicine: ',(840,180))
+        occulttitle=wx.StaticText(self,-1,'Occult: ',(840,200))
+        politicstitle=wx.StaticText(self,-1,'Politics: ',(840,220))
+        sciencetitle=wx.StaticText(self,-1,'Science: ',(840,240))
+        technologytitle=wx.StaticText(self,-1,'Technology: ',(840,260))
+
+        #displayhealthtitle=wx.StaticText(self,-1,"Characters has: ",(720,520))
+        #bashingdisplaytitle=wx.StaticText(self,-1," Levels of bashing remaining",(680,540))        
+        #lethaldisplaytitle=wx.StaticText(self,-1," Levels of lethal remaining",(680,570))
+        #aggdisplaytitle=wx.StaticText(self,-1," Levels of aggrivated remaining",(680,600))
+        
+        
+        
+        #displaybptitle=wx.StaticText(self,-1,"Character Bloodpool is: ",(670,490))
+
+
+class PageTwo(wx.Panel):
+    def __init__(self, parent):
+        wx.Panel.__init__(self, parent)
+        playerlist=["bob","carlos","wanda"]
+        playerselecttitle=wx.StaticText(self,-1,"Characters",(390,10))
+                
+        playerselect=wx.ListBox(self,-1,(340,30),(170,170),playerlist,wx.LB_SINGLE)        
+        
+        diffspin=wx.SpinCtrl(self,-1,"Difficulty",(600,345),(50,-1))
+        diffspin.SetRange(1,10)
+        diffspin.SetValue(6)
+
+        sucspin=wx.SpinCtrl(self,-1,"Successes Necessary",(800,345),(50,-1))
+        sucspin.SetValue(1)
+        
+        
+        diffdisplay=wx.StaticText(self,-1,"Difficulty",(600,325))
+        sucnessdisplay=wx.StaticText(self,-1," Successes Necessary",(760,325))
+        
+     
+                
+        
+        applydamage=wx.Button(self,-1,"Apply Damage",(820,450))
+        raisehealth=wx.Button(self,-1," Raise Health ",(600,450))
+        feed=wx.Button(self,-1,"    Feed    ",(710,530))
+        
+        test=wx.Button(self,-1,"GO!",(710,290))
+                
+        strength=wx.CheckBox(self,-1,"Strength",(20,10))
+        dexterity=wx.CheckBox(self,-1,"Dexterity",(20,30))
+        stamina=wx.CheckBox(self,-1,"Stamina",(20,50))
+        
+        charisma=wx.CheckBox(self,-1,"Charisma",(120,10))
+        manipulation=wx.CheckBox(self,-1,"Manipulation",(120,30))
+        appearence=wx.CheckBox(self,-1,"Appearence",(120,50))
+            
+        perception=wx.CheckBox(self,-1,"Perception",(220,10))
+        intellegence=wx.CheckBox(self,-1, "Intellegence",(220,30))
+        wits=wx.CheckBox(self,-1,"Wits",(220,50))
+        divideratt=wx.StaticText(self,-1,"========================",(100,70))
+        alertness=wx.CheckBox(self,-1,'Alertness',(20,80))
+        athletics=wx.CheckBox(self,-1,'Athletics',(20,100))
+        awarness=wx.CheckBox(self,-1,'Awarness',(20,120))
+        brawl=wx.CheckBox(self,-1,'Brawl',(20,140))
+        empathy=wx.CheckBox(self,-1,'Empathy',(20,160))
+        expression=wx.CheckBox(self,-1,'Expression',(20,180))
+        intimidation=wx.CheckBox(self,-1,'Intimidation',(20,200))
+        leadership=wx.CheckBox(self,-1,'Leadership',(20,220))
+        streetwise=wx.CheckBox(self,-1,'Streetwise',(20,240))
+        subterfuge=wx.CheckBox(self,-1,'Subterfuge',(20,260))
+
+        animal_ken=wx.CheckBox(self,-1,'Animal Ken',(120,80))
+        crafts=wx.CheckBox(self,-1,'Crafts',(120,100))
+        drive=wx.CheckBox(self,-1,'Drive',(120,120))
+        etiquitte=wx.CheckBox(self,-1,'Etiquitte',(120,140))
+        firearms=wx.CheckBox(self,-1,'Firearms',(120,160))
+        larceny=wx.CheckBox(self,-1,'Larceny',(120,180))
+        melee=wx.CheckBox(self,-1,'Melee',(120,200))
+        performance=wx.CheckBox(self,-1,'Performance',(120,220))
+        stealth=wx.CheckBox(self,-1,'Stealth',(120,240))
+        survival=wx.CheckBox(self,-1,'Survival',(120,260))
+        
+        academics=wx.CheckBox(self,-1,'Academics',(220,80))
+        computer=wx.CheckBox(self,-1,'Computer',(220,100))
+        finance=wx.CheckBox(self,-1,'Finance',(220,120))
+        investigation=wx.CheckBox(self,-1,'Investigation',(220,140))
+        law=wx.CheckBox(self,-1,'Law',(220,160))
+        medicine=wx.CheckBox(self,-1,'Medicine',(220,180))
+        occult=wx.CheckBox(self,-1,'Occult',(220,200))
+        politics=wx.CheckBox(self,-1,'Politics',(220,220))
+        science=wx.CheckBox(self,-1,'Science',(220,240))
+        technology=wx.CheckBox(self,-1,'Technology',(220,260))
+ 
+        willpower=wx.CheckBox(self,-1,"Willpower",(220,380))
+        consinse =wx.CheckBox(self,-1,"Conscience/Conviction",(220,320))
+        selfcontrol=wx.CheckBox(self,-1,"Self-Control/Instinct",(220,340))
+        courage=wx.CheckBox(self,-1,"Courage",(220,360))
+
+        
+        backgroundlist=["none","resources",'allies',"contacts"]        
+        backgroundtitle=wx.StaticText(self,-1,"Backgrounds",(65,300))
+        backgrounds=wx.ListBox(self,-1,(20,320),(170,170),backgroundlist,wx.LB_SINGLE)
+
+        displayhealth=wx.StaticText(self,-1,"Characters has: ",(80,520))
+        bashingdisplay=wx.StaticText(self,-1," Levels of bashing remaining",(40,540))        
+        lethaldisplay=wx.StaticText(self,-1," Levels of lethal remaining",(40,570))
+        aggdisplay=wx.StaticText(self,-1," Levels of aggrivated remaining",(40,600))
+        
+        
+        
+        displaybp=wx.StaticText(self,-1,"Character Bloodpool is: ",(40,490))
+
+
+
+
+
+        output=wx.StaticText(self,-1,"output happens here",(551,1),(499,250),wx.ALIGN_CENTER)
+        output.SetForegroundColour('green')
+        output.SetBackgroundColour('white')
+
+
+
+
+
+class PageThree(wx.Panel):
+    def __init__(self, parent):
+        wx.Panel.__init__(self, parent)
+        
+        backgroundlist=["none","resources",'allies',"contacts"]  
+        
+        strength1=wx.CheckBox(self,-1,"Strength",(20,10))
+        dexterity1=wx.CheckBox(self,-1,"Dexterity",(20,30))
+        stamina1=wx.CheckBox(self,-1,"Stamina",(20,50))
+        
+        charisma1=wx.CheckBox(self,-1,"Charisma",(120,10))
+        manipulation1=wx.CheckBox(self,-1,"Manipulation",(120,30))
+        appearence1=wx.CheckBox(self,-1,"Appearence",(120,50))
+            
+        perception1=wx.CheckBox(self,-1,"Perception",(220,10))
+        intellegence1=wx.CheckBox(self,-1, "Intellegence",(220,30))
+        wits1=wx.CheckBox(self,-1,"Wits",(220,50))
+        divideratt1=wx.StaticText(self,-1,"========================",(100,70))
+        alertness1=wx.CheckBox(self,-1,'Alertness',(20,80))
+        athletics1=wx.CheckBox(self,-1,'Athletics',(20,100))
+        awarness1=wx.CheckBox(self,-1,'Awarness',(20,120))
+        brawl1=wx.CheckBox(self,-1,'Brawl',(20,140))
+        empathy1=wx.CheckBox(self,-1,'Empathy',(20,160))
+        expression1=wx.CheckBox(self,-1,'Expression',(20,180))
+        intimidation1=wx.CheckBox(self,-1,'Intimidation',(20,200))
+        leadership1=wx.CheckBox(self,-1,'Leadership',(20,220))
+        streetwise1=wx.CheckBox(self,-1,'Streetwise',(20,240))
+        subterfuge1=wx.CheckBox(self,-1,'Subterfuge',(20,260))
+
+        animal_ken1=wx.CheckBox(self,-1,'Animal Ken',(120,80))
+        crafts1=wx.CheckBox(self,-1,'Crafts',(120,100))
+        drive1=wx.CheckBox(self,-1,'Drive',(120,120))
+        etiquitte1=wx.CheckBox(self,-1,'Etiquitte',(120,140))
+        firearms1=wx.CheckBox(self,-1,'Firearms',(120,160))
+        larceny1=wx.CheckBox(self,-1,'Larceny',(120,180))
+        melee1=wx.CheckBox(self,-1,'Melee',(120,200))
+        performance1=wx.CheckBox(self,-1,'Performance',(120,220))
+        stealth1=wx.CheckBox(self,-1,'Stealth',(120,240))
+        survival1=wx.CheckBox(self,-1,'Survival',(120,260))
+        
+        academics1=wx.CheckBox(self,-1,'Academics',(220,80))
+        computer1=wx.CheckBox(self,-1,'Computer',(220,100))
+        finance1=wx.CheckBox(self,-1,'Finance',(220,120))
+        investigation1=wx.CheckBox(self,-1,'Investigation',(220,140))
+        law1=wx.CheckBox(self,-1,'Law',(220,160))
+        medicine1=wx.CheckBox(self,-1,'Medicine',(220,180))
+        occult1=wx.CheckBox(self,-1,'Occult',(220,200))
+        politics1=wx.CheckBox(self,-1,'Politics',(220,220))
+        science1=wx.CheckBox(self,-1,'Science',(220,240))
+        technology1=wx.CheckBox(self,-1,'Technology',(220,260))
+  
+  
+        willpower1=wx.CheckBox(self,-1,"Willpower",(190,380))
+        consinse1 =wx.CheckBox(self,-1,"Conscience/Conviction",(190,320))
+        selfcontrol1=wx.CheckBox(self,-1,"Self-Control/Instinct",(190,340))
+        courage1=wx.CheckBox(self,-1,"Courage",(190,360))
+
+        
+        backgroundlist1=["none","resources",'allies',"contacts"]        
+        backgroundtitle1=wx.StaticText(self,-1,"Backgrounds",(65,300))
+        backgrounds1=wx.ListBox(self,-1,(20,320),(170,170),backgroundlist,wx.LB_SINGLE)
+        displayhealth1=wx.StaticText(self,-1,"Characters has: ",(80,520))
+        bashingdisplay1=wx.StaticText(self,-1," Levels of bashing remaining",(40,540))        
+        lethaldispla1y=wx.StaticText(self,-1," Levels of lethal remaining",(40,570))
+        aggdisplay1=wx.StaticText(self,-1," Levels of aggrivated remaining",(40,600))
+        
+        
+        
+        displaybp1=wx.StaticText(self,-1,"Character Bloodpool is: ",(40,490))
+
+        
+ 
+
+        strength2=wx.CheckBox(self,-1,"Strength",(650,10))
+        dexterity2=wx.CheckBox(self,-1,"Dexterity",(650,30))
+        stamina2=wx.CheckBox(self,-1,"Stamina",(650,50))
+        
+        charisma2=wx.CheckBox(self,-1,"Charisma",(750,10))
+        manipulation2=wx.CheckBox(self,-1,"Manipulation",(750,30))
+        appearence2=wx.CheckBox(self,-1,"Appearence",(750,50))
+            
+        perception2=wx.CheckBox(self,-1,"Perception",(850,10))
+        intellegence2=wx.CheckBox(self,-1, "Intellegence",(850,30))
+        wits2=wx.CheckBox(self,-1,"Wits",(850,50))
+        divideratt2=wx.StaticText(self,-1,"========================",(730,70))
+        alertness2=wx.CheckBox(self,-1,'Alertness',(650,80))
+        athletics2=wx.CheckBox(self,-1,'Athletics',(650,100))
+        awarness2=wx.CheckBox(self,-1,'Awarness',(650,120))
+        brawl2=wx.CheckBox(self,-1,'Brawl',(650,140))
+        empathy2=wx.CheckBox(self,-1,'Empathy',(650,160))
+        expression2=wx.CheckBox(self,-1,'Expression',(650,180))
+        intimidation2=wx.CheckBox(self,-1,'Intimidation',(650,200))
+        leadership2=wx.CheckBox(self,-1,'Leadership',(650,220))
+        streetwise2=wx.CheckBox(self,-1,'Streetwise',(650,240))
+        subterfuge2=wx.CheckBox(self,-1,'Subterfuge',(650,260))
+
+        animal_ken2=wx.CheckBox(self,-1,'Animal Ken',(750,80))
+        crafts2=wx.CheckBox(self,-1,'Crafts',(750,100))
+        drive2=wx.CheckBox(self,-1,'Drive',(750,120))
+        etiquitte2=wx.CheckBox(self,-1,'Etiquitte',(750,140))
+        firearms2=wx.CheckBox(self,-1,'Firearms',(750,160))
+        larceny2=wx.CheckBox(self,-1,'Larceny',(750,180))
+        melee2=wx.CheckBox(self,-1,'Melee',(750,200))
+        performance2=wx.CheckBox(self,-1,'Performance',(750,220))
+        stealth2=wx.CheckBox(self,-1,'Stealth',(750,240))
+        survival2=wx.CheckBox(self,-1,'Survival',(750,260))
+        
+        academics2=wx.CheckBox(self,-1,'Academics',(850,80))
+        computer2=wx.CheckBox(self,-1,'Computer',(850,100))
+        finance2=wx.CheckBox(self,-1,'Finance',(850,120))
+        investigation2=wx.CheckBox(self,-1,'Investigation',(850,140))
+        law2=wx.CheckBox(self,-1,'Law',(850,160))
+        medicine2=wx.CheckBox(self,-1,'Medicine',(850,180))
+        occult2=wx.CheckBox(self,-1,'Occult',(850,200))
+        politics2=wx.CheckBox(self,-1,'Politics',(850,220))
+        science2=wx.CheckBox(self,-1,'Science',(850,240))
+        technology2=wx.CheckBox(self,-1,'Technology',(850,260))
+
+        displayhealth2=wx.StaticText(self,-1,"Characters has: ",(720,520))
+        bashingdisplay2=wx.StaticText(self,-1," Levels of bashing remaining",(680,540))        
+        lethaldisplay2=wx.StaticText(self,-1," Levels of lethal remaining",(680,570))
+        aggdisplay2=wx.StaticText(self,-1," Levels of aggrivated remaining",(680,600))
+        
+        
+        
+        displaybp2=wx.StaticText(self,-1,"Character Bloodpool is: ",(670,490))
+
+
+        playerlist=["bob","carlos","wanda"]
+        playerselect1=wx.ListBox(self,-1,(350,330),(120,170),playerlist,wx.LB_SINGLE)        
+        playerselect2=wx.ListBox(self,-1,(490,330),(120,170),playerlist,wx.LB_SINGLE)
+        id1=wx.StaticText(self,-1,"player 1 ",(370,310))    
+        id2=wx.StaticText(self,-1,"Player 2",(530,310))
+
+        diffdisplay1=wx.StaticText(self,-1,"Difficulty/Sucess",(360,500))
+        diffspin1=wx.SpinCtrl(self,-1,"Difficulty",(360,520),(50,-1))
+        diffspin1.SetRange(1,10)
+        diffspin1.SetValue(6)
+        sucspin1=wx.SpinCtrl(self,-1,"Successes",(410,520),(50,-1))
+        sucspin1.SetValue(1)
+       
+        diffdisplay2=wx.StaticText(self,-1,"Difficulty/Sucess ",(500,500))
+        diffspin2=wx.SpinCtrl(self,-1,"difficulty",(500,520),(50,-1))
+        diffspin2.SetRange(1,10)
+        diffspin2.SetValue(6)
+        sucspin2=wx.SpinCtrl(self,-1,"successes",(550,520),(50,-1))
+        sucspin2.SetValue(1)
+
+
+        willpower2=wx.CheckBox(self,-1,"Willpower",(820,380))
+        consinse2 =wx.CheckBox(self,-1,"Conscience/Conviction",(820,320))
+        selfcontrol2=wx.CheckBox(self,-1,"Self-Control/Instinct",(820,340))
+        courage2=wx.CheckBox(self,-1,"Courage",(820,360))
+
+        
+        backgroundlist2=["none","resources",'allies',"contacts"]        
+        backgroundtitle2=wx.StaticText(self,-1,"Backgrounds",(700,300))
+        backgrounds2=wx.ListBox(self,-1,(650,320),(170,170),backgroundlist,wx.LB_SINGLE)
+
+        test=wx.Button(self,-1,"GO!!",(440,270))
+
+
+        output=wx.StaticText(self,-1,"output happens here",(350,10),(499,250),wx.ALIGN_CENTER)
+        output.SetForegroundColour('green')
+        output.SetBackgroundColour('white')
+
+
+class PageFour(wx.Panel):
+    def __init__(self,parent):
+        wx.Panel.__init__(self,parent)
+        t=wx.StaticText(self,-1,"Coming Soon",(60,60))
+
+class PageFive(wx.Panel):
+    def __init__(self,parent):
+        wx.Panel.__init__(self,parent)
+        t=wx.StaticText(self,-1,"Coming Soon",(60,60))
+        characternoteslist=["bob1","Wanda1","Carlos2"]        
+        playerlist=["bob","carlos","wanda"]
+        storylist=["storyseed1","Blood in the pipes","the corpse in the high crypt"]        
+        citylist=["succubis club1","subway","1 madison st"]
+        
+        
+        
+        characternotesdisplay=wx.StaticText(self,-1,"Character Notes",(60,5))
+        characternotes=wx.ListBox(self,-1,(20,20),(170,170),characternoteslist,wx.LB_SINGLE)
+    
+        storynotesdisplay=wx.StaticText(self,-1,"Story Notes",(70,190))
+        storynotes=wx.ListBox(self,-1,(20,210),(170,170),storylist,wx.LB_SINGLE)
+    
+        citynotesdisplay=wx.StaticText(self,-1,"City Notes",(80,380))
+        citynotes=wx.ListBox(self,-1,(20,400),(170,170),citylist,wx.LB_SINGLE)
+        
+        loadbutton=wx.Button(self,-1,"Load",(60,580))        
+        deletebutton=wx.Button(self,-1,"Delete",(110,620))
+        newbutton=wx.Button(self,-1,"new",(10,620))
+        
+        
+             
+        output=wx.StaticText(self,-1,"output happens here",(350,10),(499,250),wx.ALIGN_CENTER)
+        output.SetForegroundColour('green')
+        output.SetBackgroundColour('white')
+#new Character
+class PageSix(wx.Panel):
+    def __init__(self,parent):
+        wx.Panel.__init__(self,parent)
+        
+
+        strengthdia=wx.StaticText(self,-1,"Strength",(220,80))
+        strength=wx.SpinCtrl(self,-1,"",(320,80),(70,-1))
+        strength.SetRange(0,5)
+        strength.SetValue(1)
+        dexteritydia=wx.StaticText(self,-1,"Dexterity",(220,100))
+        dexterity=wx.SpinCtrl(self,-1,"",(320,100),(70,-1))
+        dexterity.SetRange(0,5)
+        dexterity.SetValue(1)
+        
+        staminadia=wx.StaticText(self,-1,"Stamina",(220,120))
+        stamina=wx.SpinCtrl(self,-1,"",(320,120),(70,-1))
+        stamina.SetRange(0,5)
+        stamina.SetValue(1)
+
+
+        charismadia=wx.StaticText(self,-1,"Charisma",(420,80))
+        charisma=wx.SpinCtrl(self,-1,"",(520,80),(70,-1))
+        charisma.SetRange(0,5)
+        charisma.SetValue(1)
+        manipulationdia=wx.StaticText(self,-1,"Manipulation",(420,100))
+        manipulation=wx.SpinCtrl(self,-1,"",(520,100),(70,-1))
+        manipulation.SetRange(0,5)
+        manipulation.SetValue(1)
+
+        appearencedia=wx.StaticText(self,-1,"Appearence",(420,120))
+        appearence =wx.SpinCtrl(self,-1,"",(520,120),(70,-1))   
+        appearence.SetRange(0,5)
+        appearence.SetValue(1)
+
+
+        perceptiondia=wx.StaticText(self,-1,"Perception",(620,80))
+        perception=wx.SpinCtrl(self,-1,"",(720,80),(70,-1))
+        perception.SetRange(0,5)
+        perception.SetValue(1)
+
+        intellegencedia=wx.StaticText(self,-1, "Intellegence",(620,100))
+        intellegence=wx.SpinCtrl(self,-1,"",(720,100),(70,-1))
+        intellegence.SetRange(0,5)
+        intellegence.SetValue(1)
+
+        witsdia=wx.StaticText(self,-1,"Wits",(620,120))
+        wits=wx.SpinCtrl(self,-1,"",(720,120),(70,-1))
+        wits.SetRange(0,5)
+        wits.SetValue(1)
+
+        alertnessdia=wx.StaticText(self,-1,'Alertness',(220,150))
+        alertness=wx.SpinCtrl(self,-1,"",(320,150),(70,-1))
+        alertness.SetRange(0,5)
+        alertness.SetValue(0)
+
+        athleticsdia=wx.StaticText(self,-1,'Athletics',(220,170))
+        athletics=wx.SpinCtrl(self,-1,"",(320,170),(70,-1))
+        athletics.SetRange(0,5)
+        athletics.SetValue(0)
+
+        awarnessdia=wx.StaticText(self,-1,'Awarness',(220,190))
+        awarness=wx.SpinCtrl(self,-1,"",(320,190),(70,-1))    
+        awarness.SetRange(0,5)
+        awarness.SetValue(0)
+
+        brawldia=wx.StaticText(self,-1,'Brawl',(220,210))
+        brawl=wx.SpinCtrl(self,-1,"",(320,210),(70,-1))   
+        brawl.SetRange(0,5)
+        brawl.SetValue(0)
+
+        empathydia=wx.StaticText(self,-1,'Empathy',(220,230))
+        empathy=wx.SpinCtrl(self,-1,"",(320,230),(70,-1))
+        empathy.SetRange(0,5)
+        empathy.SetValue(0)
+
+        expressiondia=wx.StaticText(self,-1,'Expression',(220,250))
+        expression=wx.SpinCtrl(self,-1,"",(320,250),(70,-1))
+        expression.SetRange(0,5)
+        expression.SetValue(0)
+
+        intimidationdia=wx.StaticText(self,-1,'Intimidation',(220,270))
+        intimidation=wx.SpinCtrl(self,-1,"",(320,270),(70,-1))
+        intimidation.SetRange(0,5)    
+        intimidation.SetValue(0)
+
+        leadershipdia=wx.StaticText(self,-1,'Leadership',(220,290))
+        leadership=wx.SpinCtrl(self,-1,"",(320,290),(70,-1))
+        leadership.SetRange(0,5)
+        leadership.SetValue(0)
+
+        streetwisedia=wx.StaticText(self,-1,'Streetwise',(220,310))
+        streetwise=wx.SpinCtrl(self,-1,"",(320,310),(70,-1))
+        streetwise.SetRange(0,5)
+        streetwise.SetValue(0)
+
+        subterfugedia=wx.StaticText(self,-1,'Subterfuge',(220,330))
+        subterfuge  =wx.SpinCtrl(self,-1,"",(320,330),(70,-1))
+        subterfuge.SetRange(0,5)
+        subterfuge.SetValue(0)
+
+
+        animal_kendia=wx.StaticText(self,-1,'Animal Ken',(420,150))
+        animal_ken=wx.SpinCtrl(self,-1,"",(520,150),(70,-1))
+        animal_ken.SetRange(0,5)
+        animal_ken.SetValue(0)
+
+        craftsdia=wx.StaticText(self,-1,'Crafts',(420,170))
+        crafts  =wx.SpinCtrl(self,-1,"",(520,170),(70,-1))
+        crafts.SetRange(0,5)
+        crafts.SetValue(0)
+
+
+        drivedia=wx.StaticText(self,-1,'Drive',(420,190))
+        drive=wx.SpinCtrl(self,-1,"",(520,190),(70,-1))
+        drive.SetRange(0,5)
+        drive.SetValue(0)
+
+        etiquittedia=wx.StaticText(self,-1,'Etiquitte',(420,210))
+        etiquitte=wx.SpinCtrl(self,-1,"",(520,210),(70,-1))
+        etiquitte.SetRange(0,5)
+        etiquitte.SetValue(0)
+
+        firearmsdia=wx.StaticText(self,-1,'Firearms',(420,230))
+        firearms=wx.SpinCtrl(self,-1,"",(520,230),(70,-1))
+        firearms.SetRange(0,5)
+        firearms.SetValue(0)
+
+        larcenydia=wx.StaticText(self,-1,'Larceny',(420,250))
+        larceny=wx.SpinCtrl(self,-1,"",(520,250),(70,-1))
+        larceny.SetRange(0,5)
+        larceny.SetValue(0)
+
+        meleedia=wx.StaticText(self,-1,'Melee',(420,270))
+        melee=wx.SpinCtrl(self,-1,"",(520,270),(70,-1))
+        melee.SetRange(0,5)
+        melee.SetValue(0)
+
+        performancedia=wx.StaticText(self,-1,'Performance',(420,290))
+        performance=wx.SpinCtrl(self,-1,"",(520,290),(70,-1))
+        performance.SetRange(0,5)
+        performance.SetValue(0)
+
+        stealthdia=wx.StaticText(self,-1,'Stealth',(420,310))
+        stealth=wx.SpinCtrl(self,-1,"",(520,310),(70,-1))
+        stealth.SetRange(0,5)
+        stealth.SetValue(0)
+
+        survivaldia=wx.StaticText(self,-1,'Survival',(420,330))
+        survival=wx.SpinCtrl(self,-1,"",(520,330),(70,-1))
+        survival.SetRange(0,5)
+        survival.SetValue(0)
+
+
+        academicsdia=wx.StaticText(self,-1,'Academics',(620,150))
+        academics=wx.SpinCtrl(self,-1,"",(720,150),(70,-1))
+        academics.SetRange(0,5)
+        academics.SetValue(0)
+
+        computerdia=wx.StaticText(self,-1,'Computer',(620,170))
+        computer=wx.SpinCtrl(self,-1,"",(720,170),(70,-1))
+        computer.SetRange(0,5)
+        computer.SetValue(0)
+
+        financedia=wx.StaticText(self,-1,'Finance',(620,190))
+        finance=wx.SpinCtrl(self,-1,"",(720,190),(70,-1))
+        finance.SetRange(0,5)
+        finance.SetValue(0)
+
+        investigationdia=wx.StaticText(self,-1,'Investigation',(620,210))
+        investigation=wx.SpinCtrl(self,-1,"",(720,210),(70,-1))
+        investigation.SetRange(0,5)
+        investigation.SetValue(0)
+
+        lawdia=wx.StaticText(self,-1,'Law',(620,230))
+        law=wx.SpinCtrl(self,-1,"",(720,230),(70,-1))
+        law.SetRange(0,5)
+        law.SetValue(0)
+
+        medicinedia=wx.StaticText(self,-1,'Medicine',(620,250))
+        medicine=wx.SpinCtrl(self,-1,"",(720,250),(70,-1))
+        medicine.SetRange(0,5)
+        medicine.SetValue(0)
+
+        occultdia=wx.StaticText(self,-1,'Occult',(620,270))
+        occult=wx.SpinCtrl(self,-1,"",(720,270),(70,-1))
+        occult.SetRange(0,5)
+        occult.SetValue(0)
+
+        politicsdia=wx.StaticText(self,-1,'Politics',(620,290))
+        politics=wx.SpinCtrl(self,-1,"",(720,290),(70,-1))
+        politics.SetRange(0,5)
+        politics.SetValue(0)
+
+        sciencedia=wx.StaticText(self,-1,'Science',(620,310))
+        science=wx.SpinCtrl(self,-1,"",(720,310),(70,-1))
+        science.SetRange(0,5)
+        science.SetValue(0)
+
+        technologydia=wx.StaticText(self,-1,'Technology',(620,330))
+        technology=wx.SpinCtrl(self,-1,"",(720,330),(70,-1))
+        technology.SetRange(0,5)
+        technology.SetValue(0)
+
+
+        willpowerdia=wx.StaticText(self,-1,"Willpower",(620,460))
+        willpower=wx.SpinCtrl(self,-1,"",(720,460),(70,-1))
+        willpower.SetRange(0,10)
+        willpower.SetValue(1)
+
+        consincedia =wx.StaticText(self,-1,"Conscience/Conviction",(620,400))
+        consince=wx.SpinCtrl(self,-1,"",(720,400),(70,-1))
+        consince.SetRange(0,5)
+        consince.SetValue(1)
+
+        selfcontroldia=wx.StaticText(self,-1,"Self-Control/Instinct",(620,420))
+        selfcontrol=wx.SpinCtrl(self,-1,"",(720,420),(70,-1))
+        selfcontrol.SetRange(0,5)
+        selfcontrol.SetValue(1)
+
+        couragedia=wx.StaticText(self,-1,"Courage",(620,440))
+        courage=wx.SpinCtrl(self,-1,"",(720,440),(70,-1))
+        courage.SetRange(0,5)
+        courage.SetValue(1)
+
+        gobutton=wx.Button(self,-1,"Create",(440,620))
+        
+       
+
+
+        backgrounds=wx.Button(self,-1,"Backgrounds",(420,400))
+        
+
+
+
+        disciplines=wx.Button(self,-1,"Disciplines",(220,400))        
+        
+
+
+
+        nature=wx.Button(self,-1,"Nature",(200,20))
+        
+
+
+
+        demenor=wx.Button(self,-1,"demenor",(400,20))
+        
+        name=wx.Button(self,-1,"Name",(20,20))
+
+
+        clan=wx.Button(self,-1,"Clan",(600,20))
+        charactertype=wx.CheckBox(self,-1,"Player Character",(750,20))
+        
+
+
+
+
+
+class MainFrame(wx.Frame):
+    def __init__(self):
+        wx.Frame.__init__(self, None, title="StBuddy",size=(1000,700))
+        self.Centre()
+        
+        p = wx.Panel(self)
+        nb = wx.Notebook(p)
+
+        
+        page1 = PageOne(nb)
+        page2 = PageTwo(nb)
+        page3 = PageThree(nb)
+        page4 = PageFour(nb)
+        page5 = PageFive(nb)        
+        page6 = PageSix(nb)
+        
+        
+   
+        nb.AddPage(page1, "Characters")
+        nb.AddPage(page2, "Single Player Actions")
+        nb.AddPage(page3, "Contested Actions")
+        nb.AddPage(page4, "Dice Roller")
+        nb.AddPage(page5, "Storyteller Notes")
+        nb.AddPage(page6, "Upload Character")
+        
+        sizer = wx.BoxSizer()
+        sizer.Add(nb, 1, wx.EXPAND)
+        p.SetSizer(sizer)
+
+
+if __name__ == "__main__":
+    app = wx.App()
+    MainFrame().Show()
+    app.MainLoop()
